@@ -2,23 +2,24 @@ import java.util.Scanner;
 
 public class Main {
 
-
     static Scanner scanner = new Scanner(System.in);
 
 
+    // Arrays used to store cars and customers
     static Car[] cars = new Car[20];
     static Customer[] customers = new Customer[20];
 
 
+    // Current position in the arrays
     static int carIndex = 0;
     static int customerIndex = 0;
 
 
+    // Total money earned from rentals
     static double totalIncome = 0;
 
 
     public static void main(String[] args) {
-
 
         int choice;
 
@@ -28,8 +29,8 @@ public class Main {
         System.out.println("========================================");
 
 
+        // Keep the program running until the user chooses Exit
         do {
-
 
             printMenu();
 
@@ -38,8 +39,8 @@ public class Main {
             scanner.nextLine();
 
 
+            // Run the selected operation
             switch (choice) {
-
 
                 case 1:
                     addRegularCar();
@@ -119,7 +120,6 @@ public class Main {
 
     public static void printMenu() {
 
-
         System.out.println();
         System.out.println("========================================");
         System.out.println("       SPEEDWAY RENTALS SYSTEM");
@@ -143,16 +143,13 @@ public class Main {
 
     public static boolean carIdExists(int id) {
 
-
+        // Check all saved cars for the same ID
         for (int i = 0; i < carIndex; i++) {
 
-
             if (cars[i].getId() == id) {
-
                 return true;
             }
         }
-
 
         return false;
     }
@@ -160,16 +157,13 @@ public class Main {
 
     public static boolean customerIdExists(int id) {
 
-
+        // Check if this customer ID is already used
         for (int i = 0; i < customerIndex; i++) {
 
-
             if (customers[i].getId() == id) {
-
                 return true;
             }
         }
-
 
         return false;
     }
@@ -177,10 +171,10 @@ public class Main {
 
     public static void addRegularCar() {
 
-
         System.out.println("\n--- Add Regular Car ---");
 
 
+        // Maximum number of cars that can be stored
         if (carIndex >= 20) {
 
             System.out.println("Car list is full.");
@@ -192,6 +186,7 @@ public class Main {
         int id = scanner.nextInt();
 
 
+        // Every car needs a unique ID
         if (carIdExists(id)) {
 
             System.out.println("Car ID already exists.");
@@ -214,6 +209,7 @@ public class Main {
         int year = scanner.nextInt();
 
 
+        // Accept only a valid production year
         if (year < 1990 || year > 2026) {
 
             System.out.println("Invalid year.");
@@ -232,6 +228,7 @@ public class Main {
         }
 
 
+        // Create the car and save it in the array
         cars[carIndex] = new Car(id, brand, model, year, price);
 
         carIndex++;
@@ -243,7 +240,6 @@ public class Main {
 
 
     public static void addLuxuryCar() {
-
 
         System.out.println("\n--- Add Luxury Car ---");
 
@@ -299,6 +295,7 @@ public class Main {
         }
 
 
+        // Luxury cars also have an insurance fee
         System.out.print("Insurance fee: ");
         double insurance = scanner.nextDouble();
 
@@ -310,7 +307,15 @@ public class Main {
         }
 
 
-        cars[carIndex] = new LuxuryCar(id, brand, model, year, price, insurance);
+        // Store a LuxuryCar inside the Car array
+        cars[carIndex] = new LuxuryCar(
+                id,
+                brand,
+                model,
+                year,
+                price,
+                insurance
+        );
 
 
         carIndex++;
@@ -322,7 +327,6 @@ public class Main {
 
 
     public static void addCustomer() {
-
 
         System.out.println("\n--- Add Customer ---");
 
@@ -356,6 +360,7 @@ public class Main {
         String phone = scanner.nextLine();
 
 
+        // Create and save the new customer
         customers[customerIndex] = new Customer(id, name, phone);
 
 
@@ -369,7 +374,6 @@ public class Main {
 
     public static void displayAllCars() {
 
-
         System.out.println("\n--- All Cars ---");
 
 
@@ -380,13 +384,17 @@ public class Main {
         }
 
 
+        // Print all cars currently stored
         for (int i = 0; i < carIndex; i++) {
-
 
             Car c = cars[i];
 
-
-            System.out.println("ID: " + c.getId() + " | " + c.getBrand() + " " + c.getModel() + " | Available: " + c.isAvailable());
+            System.out.println(
+                    "ID: " + c.getId()
+                            + " | " + c.getBrand()
+                            + " " + c.getModel()
+                            + " | Available: " + c.isAvailable()
+            );
 
         }
 
@@ -395,21 +403,22 @@ public class Main {
 
     public static void displayAvailableCars() {
 
-
         int count = 0;
 
 
         System.out.println("\n--- Available Cars ---");
 
 
+        // Only show cars that are not currently rented
         for (int i = 0; i < carIndex; i++) {
-
 
             if (cars[i].isAvailable()) {
 
-
-                System.out.println(cars[i].getBrand() + " " + cars[i].getModel());
-
+                System.out.println(
+                        cars[i].getBrand()
+                                + " "
+                                + cars[i].getModel()
+                );
 
                 count++;
             }
@@ -424,22 +433,23 @@ public class Main {
 
     public static void searchCarById() {
 
-
         System.out.print("Car ID: ");
 
         int id = scanner.nextInt();
 
 
+        // Search until we find the requested car
         for (int i = 0; i < carIndex; i++) {
-
 
             if (cars[i].getId() == id) {
 
-
-                System.out.println(cars[i].getBrand() + " " + cars[i].getModel());
+                System.out.println(
+                        cars[i].getBrand()
+                                + " "
+                                + cars[i].getModel()
+                );
 
                 return;
-
             }
 
         }
@@ -452,7 +462,6 @@ public class Main {
 
     public static void searchCarByBrand() {
 
-
         scanner.nextLine();
 
 
@@ -464,17 +473,18 @@ public class Main {
         int count = 0;
 
 
+        // A brand can have more than one car
         for (int i = 0; i < carIndex; i++) {
-
 
             if (cars[i].getBrand().equalsIgnoreCase(brand)) {
 
-
-                System.out.println(cars[i].getBrand() + " " + cars[i].getModel());
-
+                System.out.println(
+                        cars[i].getBrand()
+                                + " "
+                                + cars[i].getModel()
+                );
 
                 count++;
-
             }
 
         }
@@ -505,9 +515,11 @@ public class Main {
         Customer customer = null;
 
 
+        // Find the customer by ID
         for (int i = 0; i < customerIndex; i++) {
 
             if (customers[i].getId() == customerId) {
+
                 customer = customers[i];
                 break;
             }
@@ -521,6 +533,7 @@ public class Main {
         }
 
 
+        // One customer can rent only one car at a time
         if (customer.getRentedCarId() != -1) {
 
             System.out.println("Customer already has a car.");
@@ -535,6 +548,7 @@ public class Main {
         Car car = null;
 
 
+        // Find the selected car
         for (int i = 0; i < carIndex; i++) {
 
             if (cars[i].getId() == carId) {
@@ -552,6 +566,7 @@ public class Main {
         }
 
 
+        // Don't allow the same car to be rented twice
         if (!car.isAvailable()) {
 
             System.out.println("Car is already rented.");
@@ -570,57 +585,72 @@ public class Main {
         }
 
 
+        // Luxury cars have a minimum rental period
         if (car instanceof LuxuryCar) {
-
 
             if (days < LuxuryCar.getMinRentalDays()) {
 
-                System.out.println("Luxury car requires minimum 3 days.");
+                System.out.println(
+                        "Luxury car requires minimum 3 days."
+                );
 
                 return;
             }
         }
 
 
+        // Basic rental price
         double cost = car.getPricePerDay() * days;
 
 
-        // tax 14%
-        cost = cost + (cost * 0.14);
+        // Add the tax to the rental price
+        cost = cost + (cost * Car.getTaxRate());
 
 
+        // Luxury cars also include the insurance fee
         if (car instanceof LuxuryCar) {
 
-
             LuxuryCar luxuryCar = (LuxuryCar) car;
-
 
             cost += luxuryCar.getInsuranceFee();
 
         }
 
 
+        // The car is not available until it is returned
         car.setAvailable(false);
 
 
+        // Save the rental information in the customer
         customer.setRentedCarId(car.getId());
 
         customer.setRentedDays(days);
 
-        customer.setTotalPaid(customer.getTotalPaid() + cost);
+        customer.setTotalPaid(
+                customer.getTotalPaid() + cost
+        );
 
 
+        // Update the total income of the rental company
         totalIncome += cost;
 
 
         System.out.println("\nRental completed!");
-        System.out.println("Customer: " + customer.getName());
-        System.out.println("Car: " + car.getBrand() + " " + car.getModel());
+        System.out.println(
+                "Customer: " + customer.getName()
+        );
+        System.out.println(
+                "Car: "
+                        + car.getBrand()
+                        + " "
+                        + car.getModel()
+        );
 
         System.out.println("Days: " + days);
 
         System.out.println("Final cost: " + cost);
     }
+
 
     public static void returnCar() {
 
@@ -634,6 +664,7 @@ public class Main {
         Customer customer = null;
 
 
+        // Find the customer
         for (int i = 0; i < customerIndex; i++) {
 
             if (customers[i].getId() == customerId) {
@@ -651,6 +682,7 @@ public class Main {
         }
 
 
+        // -1 means there is no car to return
         if (customer.getRentedCarId() == -1) {
 
             System.out.println("Customer has no car.");
@@ -661,16 +693,20 @@ public class Main {
         int carId = customer.getRentedCarId();
 
 
+        // Find the rented car and make it available again
         for (int i = 0; i < carIndex; i++) {
 
-
             if (cars[i].getId() == carId) {
-
 
                 cars[i].setAvailable(true);
 
 
-                System.out.println("Returned: " + cars[i].getBrand() + " " + cars[i].getModel());
+                System.out.println(
+                        "Returned: "
+                                + cars[i].getBrand()
+                                + " "
+                                + cars[i].getModel()
+                );
 
 
                 break;
@@ -678,14 +714,15 @@ public class Main {
         }
 
 
+        // Reset the customer's rental information
         customer.setRentedCarId(-1);
 
         customer.setRentedDays(0);
 
     }
 
-    public static void displayAllCustomers() {
 
+    public static void displayAllCustomers() {
 
         System.out.println("\n--- Customers List ---");
 
@@ -697,25 +734,30 @@ public class Main {
         }
 
 
+        // Print every registered customer
         for (int i = 0; i < customerIndex; i++) {
-
 
             Customer customer = customers[i];
 
 
-            System.out.print("ID: " + customer.getId() + " | Name: " + customer.getName());
+            System.out.print(
+                    "ID: "
+                            + customer.getId()
+                            + " | Name: "
+                            + customer.getName()
+            );
 
 
             if (customer.getRentedCarId() == -1) {
 
-
                 System.out.println(" | Car: None");
-
 
             } else {
 
-
-                System.out.println(" | Rented Car ID: " + customer.getRentedCarId());
+                System.out.println(
+                        " | Rented Car ID: "
+                                + customer.getRentedCarId()
+                );
 
             }
         }
