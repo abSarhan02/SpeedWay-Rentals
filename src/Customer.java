@@ -1,19 +1,27 @@
 public class Customer {
+
     private int id;
     private String name;
     private String phone;
+
+    // ID of the car currently rented by the customer
     private int rentedCarId;
     private int rentedDays;
     private double totalPaid;
+
+    // Total number of customers created
     private static int count = 0;
 
     public Customer(int id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
+
+        // -1 means that the customer has no rented car
         this.rentedCarId = -1;
         this.rentedDays = 0;
         this.totalPaid = 0;
+
         count++;
     }
 
