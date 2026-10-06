@@ -1,5 +1,6 @@
 public class Car {
 
+    // Basic info about the car
     private String model;
     private String brand;
     private int id;
@@ -7,6 +8,7 @@ public class Car {
     private double pricePerDay;
     private boolean available;
 
+    // Keep track of how many cars are created
     private static int carCount = 0;
     private static final double TAX_RATE = 0.14;
 
@@ -17,6 +19,8 @@ public class Car {
         this.id = id;
         this.year = year;
         this.pricePerDay = pricePerDay;
+
+        // Every new car is available by default
         this.available = true;
 
         carCount++;
@@ -57,5 +61,9 @@ public class Car {
 
     public static int getCarCount() {
         return carCount;
+    }
+    
+    public static double getTaxRate() {
+        return TAX_RATE;
     }
 }
